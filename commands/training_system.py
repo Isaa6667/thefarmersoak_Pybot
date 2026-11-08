@@ -37,7 +37,8 @@ class TrainingSystem(commands.Cog):
                 "**7. Arrival Time:** Join voice/shift channels at least 10 minutes before start time.\n"
                 "**8. Customer Communication:** Always use polite, welcoming language and professional tone.\n"
                 "**9. POS System Code:** Check internal staff pins or ask a manager on duty.\n"
-                "**10. Pub Landlords:** Refer to the server pins or channel topics for current landlord names."
+                "**10. Pub Landlords:** Refer to the server pins or channel topics for current landlord names.\n"
+                "**11. Training Sessions:** Staff must successfully attend both theory training and practical sessions."
             ),
             colour=EMBED_COLOUR
         )
@@ -52,6 +53,7 @@ class TrainingSystem(commands.Cog):
                 "Welcome to staff training! Here is what you need to complete:\n\n"
                 "• Receive your quiz via a management command (`/trainingquiz user`)\n"
                 "• Complete both Part 1 and Part 2 via the secure modals\n"
+                "• Attend both theory training and practical sessions\n"
                 "• Wait for management review and approval\n\n"
                 "Use `/training manual` to review the required guidelines before starting."
             ),
