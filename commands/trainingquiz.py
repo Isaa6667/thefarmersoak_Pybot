@@ -365,6 +365,25 @@ class TrainingQuiz(commands.Cog):
         )
 
     @trainingquiz.command(
+        name="reset",
+        description="Reset active or stuck quiz memory for a trainee"
+    )
+    @app_commands.describe(user="The trainee whose quiz state should be cleared")
+    @is_management()
+    async def reset(self, interaction: discord.Interaction, user: discord.Member):
+        if user.id in self.bot.quiz_answers:
+            self.bot.quiz_answers.pop(user.id, None)
+            await interaction.response.send_message(
+                f"Cleared stored quiz state for {user.mention}. They can now start fresh.",
+                ephemeral=True
+            )
+        else:
+            await interaction.response.send_message(
+                f"{user.mention} does not have an active quiz session in memory.",
+                ephemeral=True
+            )
+
+    @trainingquiz.command(
         name="stats",
         description="View current staff training academy statistics"
     )
@@ -384,7 +403,7 @@ class TrainingQuiz(commands.Cog):
         failed_count = 0
         pending_count = 0
 
-        async for message in review_channel.history(limit=100):
+        async for message in review_channel.history(limit=200):
             if message.author == self.bot.user and message.embeds:
                 embed = message.embeds[0]
                 if embed.title == "New Staff Training Quiz":
@@ -398,12 +417,12 @@ class TrainingQuiz(commands.Cog):
 
         embed = discord.Embed(
             title="The Farmers Oak | Training Academy Stats",
-            description="Overview of current staff onboarding performance.",
+            description="Overview of recent staff onboarding performance (Last 200 submissions):",
             colour=EMBED_COLOUR
         )
-        embed.add_field(name="Pending Reviews", value=str(pending_count), inline=True)
-        embed.add_field(name="Total Passed", value=str(passed_count), inline=True)
-        embed.add_field(name="Total Failed", value=str(failed_count), inline=True)
+        embed.add_field(name="Pending Reviews", value=f"**{pending_count}**", inline=True)
+        embed.add_field(name="Total Passed", value=f"**{passed_count}**", inline=True)
+        embed.add_field(name="Total Failed", value=f"**{failed_count}**", inline=True)
         embed.set_footer(text="The Farmers Oak Training Academy")
 
         await interaction.followup.send(embed=embed, ephemeral=True)
