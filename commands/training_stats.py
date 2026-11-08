@@ -20,7 +20,7 @@ class TrainingStatsCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    stats_group = app_commands.Group(name="training-stats", description="Training Academy statistics and reports")
+    stats_group = app_commands.Group(name="training-stats", description="Training statistics and reports")
 
     @stats_group.command(name="overview", description="View pass, fail, and pending onboarding stats")
     @is_management()
@@ -52,14 +52,14 @@ class TrainingStatsCog(commands.Cog):
                         failed_count += 1
 
         embed = discord.Embed(
-            title="The Farmers Oak | Training Academy Overview",
+            title="The Farmers Oak | Training Overview",
             description="Performance breakdown of recent staff onboarding records:",
             colour=EMBED_COLOUR
         )
         embed.add_field(name="Pending Reviews", value=f"**{pending_count}**", inline=True)
         embed.add_field(name="Total Passed", value=f"**{passed_count}**", inline=True)
         embed.add_field(name="Total Failed", value=f"**{failed_count}**", inline=True)
-        embed.set_footer(text="The Farmers Oak Management Reports")
+        embed.set_footer(text="The Farmers Oak")
 
         await interaction.followup.send(embed=embed, ephemeral=True)
 
