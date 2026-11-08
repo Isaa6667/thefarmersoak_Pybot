@@ -4,7 +4,6 @@ from discord import app_commands
 from discord.ext import commands
 
 EMBED_COLOUR = discord.Colour(0x355E3B)
-R_COHORTS_CHANNEL_ID = 1568717370149830877
 
 def is_management():
     async def predicate(interaction: discord.Interaction):
@@ -61,17 +60,6 @@ class QuizEmbedModal(discord.ui.Modal, title="Create Quiz Announcement"):
     )
 
     async def on_submit(self, interaction: discord.Interaction):
-        target_channel = interaction.guild.get_channel(R_COHORTS_CHANNEL_ID)
-        if target_channel is None:
-            try:
-                target_channel = await interaction.guild.fetch_channel(R_COHORTS_CHANNEL_ID)
-            except discord.HTTPException:
-                await interaction.response.send_message(
-                    "Could not locate the r-cohorts channel.",
-                    ephemeral=True
-                )
-                return
-
         embed = discord.Embed(
             title=self.title_input.value,
             description=self.instructions_input.value,
@@ -80,9 +68,9 @@ class QuizEmbedModal(discord.ui.Modal, title="Create Quiz Announcement"):
         embed.set_footer(text="The Farmers Oak")
 
         view = StartQuizView()
-        await target_channel.send(embed=embed, view=view)
+        await interaction.channel.send(embed=embed, view=view)
         await interaction.response.send_message(
-            f"Quiz embed successfully posted in {target_channel.mention}!",
+            f"Quiz embed successfully posted in {interaction.channel.mention}!",
             ephemeral=True
         )
 
@@ -92,17 +80,10 @@ class MakeQuizEmbedCog(commands.Cog):
 
     @app_commands.command(
         name="makequizembed",
-        description="Post the official quiz start embed in r-cohorts (Management only)"
+        description="Post the official quiz start embed in the current channel (Management only)"
     )
     @is_management()
     async def make_quiz_embed(self, interaction: discord.Interaction):
-        if interaction.channel_id != R_COHORTS_CHANNEL_ID:
-            await interaction.response.send_message(
-                f"This command can only be used inside <#{R_COHORTS_CHANNEL_ID}>.",
-                ephemeral=True
-            )
-            return
-
         modal = QuizEmbedModal()
         await interaction.response.send_modal(modal)
 
