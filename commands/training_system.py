@@ -41,15 +41,15 @@ class TrainingSystem(commands.Cog):
             ),
             colour=EMBED_COLOUR
         )
-        embed.set_footer(text="The Farmers Oak Training Academy Reference Guide")
+        embed.set_footer(text="The Farmers Oak")
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
     @training_group.command(name="info", description="View requirements for completing staff onboarding")
     async def info(self, interaction: discord.Interaction):
         embed = discord.Embed(
-            title="The Farmers Oak | Academy Information",
+            title="The Farmers Oak | Staff Onboarding",
             description=(
-                "Welcome to the training academy! Here is what you need to complete:\n\n"
+                "Welcome to staff training! Here is what you need to complete:\n\n"
                 "• Receive your quiz via a management command (`/trainingquiz user`)\n"
                 "• Complete both Part 1 and Part 2 via the secure modals\n"
                 "• Wait for management review and approval\n\n"
@@ -57,7 +57,7 @@ class TrainingSystem(commands.Cog):
             ),
             colour=EMBED_COLOUR
         )
-        embed.set_footer(text="The Farmers Oak Training Academy")
+        embed.set_footer(text="The Farmers Oak")
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
 async def setup(bot):
